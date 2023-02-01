@@ -2,13 +2,19 @@ import React, { useState } from "react";
 import axios from "axios";
 
 export default function Search() {
-  let [city, setCity] = useState("");
-  let [weather, setWeather] = useState(false);
-  let [temperature, setTemperature] = useState(null);
+  const [city, setCity] = useState("");
+  const [weather, setWeather] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   function showWeather(response) {
-    setWeather(true);
-    setTemperature(response.data.main.temp);
+    setLoaded(true);
+    setWeather({
+      temperature: Math.round(response.data.main.temp),
+      description: response.data.weather[0].description,
+      wind: response.data.wind.speed,
+      humidity: response.data.main.humidity,
+      icon: `http://openweathermap.org./img/wn/${response.data.weather[0].icon}@2x.png`,
+    });
   }
 
   function handleSubmit(event) {
@@ -28,11 +34,19 @@ export default function Search() {
     </form>
   );
 
-  if (weather) {
+  if (loaded) {
     return (
       <div>
         {form}
-        {Math.round(temperature)}
+        <ul>
+          <li> Temperature: {weather.temperature}°C </li>
+          <li> Description: {weather.description}</li>
+          <li> Humidity: {weather.humidity}% </li>
+          <li> Wind: {weather.wind}Km/h </li>
+          <li>
+            <img src={weather.icon} alt="Weather icon" />
+          </li>
+        </ul>
       </div>
     );
   } else {
