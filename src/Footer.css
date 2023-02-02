@@ -1,0 +1,13 @@
+.Footer {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+footer {
+  font-size: small;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.footer-link {
+  color: #33cccc;
+}
