@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Weather.css";
 import clouds from "./clouds.gif";
+import FormattedDate from "./FormattedDate";
 
-export default function Weather() {
+export default function Weather(props) {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
   const [loaded, setLoaded] = useState(false);
@@ -15,6 +16,7 @@ export default function Weather() {
       description: response.data.weather[0].description,
       wind: response.data.wind.speed,
       humidity: response.data.main.humidity,
+      date: new Date(response.data.dt * 1000),
       icon: `http://openweathermap.org./img/wn/${response.data.weather[0].icon}@2x.png`,
     });
   }
@@ -66,7 +68,9 @@ export default function Weather() {
                       </a>
                     </span>
                   </h2>
-                  <h3>date</h3>
+                  <h3>
+                    <FormattedDate date={weather.date} />
+                  </h3>
                   <ul>
                     <li className="weather-Description">
                       {" "}
